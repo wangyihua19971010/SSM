@@ -64,7 +64,7 @@
 ###     controller
 
      /**
-     * 图片修改保存--溢华
+     * 图片修改保存
      * @param file1
      * @param id
      * @return
@@ -76,6 +76,7 @@
         Map<String, Object> map = new HashMap<String, Object>();
         UserInfoVo userInfoVo = new UserInfoVo();
         userInfoVo.setId(id);
+        String falg="";
         File fdir=null;
         String originalFilename = file1.getOriginalFilename();
         String uuid = UUID.randomUUID().toString();
@@ -101,22 +102,21 @@
                 }
                 //文件上传到路径下
                 FileUtils.copyInputStreamToFile(file1.getInputStream(), new File(fdir, originalFilename));
-                //coding
-
                 map.put("result", "success");
-
 
             } catch (Exception e) {
                 map.put("result", "error");
                 map.put("msg", e.getMessage());
             }
         }
-        System.out.println(originalFilename);
         userInfoVo.setPhoto(originalFilename);
-        userService.uploadFile(userInfoVo);
+        boolean b = userService.uploadFile(userInfoVo);
+        if (b==true)
+            falg="true";
 
-        return "true";
+        return falg;
     }
+
     
     
 ---
